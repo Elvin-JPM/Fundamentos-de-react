@@ -1,35 +1,12 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { memo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { postData } from "../api/api.js";
 
-// async function fetchData() {
-//   const body = {
-//     email: "eposadas2@gmail.com",
-//     password: "1234",
-//     username: "elvposadas2",
-//     name: "e posadas 2",
-//   };
-
-//   try {
-//     const response = await axios.post(
-//       "http://127.0.0.1:3001/api/auth/signup",
-//       body
-//     );
-//     console.log(response.data);
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//   }
-// }
-
-// export default fetchData();
-
-function Signup() {
+function Signup({ handleShowMessage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
-  const [buttonState, setButtonState] = useState(true);
   const navigate = useNavigate();
 
   const handleChange = (inputId, newValue) => {
@@ -39,22 +16,38 @@ function Signup() {
     if (inputId === "name") setName(newValue);
   };
 
-  useEffect(() => {
-    // Update buttonState after the component has rendered
-    if (email !== "" && password !== "" && username !== "" && name !== "") {
-      setButtonState(false);
-    } else {
-      setButtonState(true);
-    }
-  }, [email, password, username, name]);
+  const requestBody = {
+    email,
+    password,
+    username,
+    name,
+  };
 
-  const handleClick = (event) => {
+  const handleClick = async (event) => {
     //event.preventDefault();
     console.log("Sign up button clicked!");
-    if (email && password && username && name) {
-      navigate("/");
+    if (validateEmail(email) && password.length >= 4 && username && name) {
+      try {
+        const response = await postData("/auth/signup", requestBody);
+        console.log("status", response.status);
+        if (response.status === 201) {
+          handleShowMessage("USER CREATED!", "showSuccess");
+          setTimeout(() => {
+            handleShowMessage("", "doNotShow");
+            navigate("/");
+          }, 2000);
+        } else {
+          throw new Error("Error al crear usuario");
+        }
+      } catch (error) {
+        handleShowMessage(error.message, "showFailure");
+      }
     } else {
-      setTimeout(() => {}, 3000);
+      handleShowMessage("FAILURE: USER NOT CREATED.", "showFailure");
+      setTimeout(() => {
+        handleShowMessage("", "doNotShow");
+        console.log("Volver a intentar");
+      }, 2000);
     }
   };
 
@@ -90,7 +83,7 @@ function Signup() {
           handleChange={handleChange}
         ></Input>
 
-        <input type="submit" value="Sign Up" onClick={handleClick} />
+        <input type="button" value="Sign Up" onClick={handleClick} />
       </form>
     </>
   );
@@ -102,6 +95,7 @@ function Input({ id, type, value, placeholder, handleChange }) {
       type={type}
       value={value}
       placeholder={placeholder}
+      required
       onChange={(event) => {
         handleChange(id, event.target.value);
       }}
@@ -109,18 +103,11 @@ function Input({ id, type, value, placeholder, handleChange }) {
   );
 }
 
-function SignUpButton() {
-  const navigate = useNavigate();
-  const handleClick = (event) => {
-    event.preventDefault();
-    console.log("Sign up button clicked!");
-    navigate("/");
-  };
-  return <input type="submit" value="Sign Up" onClick={handleClick} />;
-}
-
-function InvalidCredentials() {
-  return <div>Invalid Credentials</div>;
+function validateEmail(mail) {
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+    return true;
+  }
+  return false;
 }
 
 export default Signup;
