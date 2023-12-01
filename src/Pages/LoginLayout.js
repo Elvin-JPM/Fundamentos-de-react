@@ -1,8 +1,9 @@
-import Signup from "../Components/Signup.js";
-import Message from "../Components/Message";
 import { useState } from "react";
 
-function SignUpLayout() {
+import Message from "../Components/Message";
+import Login from "../Components/Login";
+
+function LoginLayout() {
   const [showMessage, setShowMessage] = useState("doNotShow");
   const [message, setMessage] = useState("");
 
@@ -13,10 +14,10 @@ function SignUpLayout() {
 
   return (
     <>
-      <Signup handleShowMessage={handleShowMessage} />
+      <Login handleShowMessage={handleShowMessage} />
       <Message message={message} showMessage={showMessage} />
     </>
   );
 }
 
-export default SignUpLayout;
+export default LoginLayout;

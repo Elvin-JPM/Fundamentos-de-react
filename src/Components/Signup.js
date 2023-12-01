@@ -34,7 +34,7 @@ function Signup({ handleShowMessage }) {
           handleShowMessage("USER CREATED!", "showSuccess");
           setTimeout(() => {
             handleShowMessage("", "doNotShow");
-            navigate("/");
+            navigate("/login");
           }, 2000);
         } else {
           throw new Error("Error al crear usuario");
@@ -46,7 +46,6 @@ function Signup({ handleShowMessage }) {
       handleShowMessage("FAILURE: USER NOT CREATED.", "showFailure");
       setTimeout(() => {
         handleShowMessage("", "doNotShow");
-        console.log("Volver a intentar");
       }, 2000);
     }
   };

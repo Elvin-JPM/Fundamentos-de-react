@@ -1,6 +1,6 @@
 import styles from "./Message.module.css";
 
-function SuccessMessage({ message, showMessage }) {
+function Message({ message, showMessage }) {
   console.log("Recibido: ", showMessage);
   return (
     <div className={styles[showMessage]}>
@@ -9,4 +9,4 @@ function SuccessMessage({ message, showMessage }) {
   );
 }
 
-export default SuccessMessage;
+export default Message;
