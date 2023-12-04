@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { test } from "../playAround";
+import NoAddsYet from "../Components/NoAddsYet";
+import Adds from "../Components/Adds";
 
 function AddsPage() {
   const [showMessage, setShowMessage] = useState("doNotShow");
@@ -8,7 +11,10 @@ function AddsPage() {
     setMessage(newMessage);
     setShowMessage(newMessageStatus);
   };
-  return <div>AddsPage</div>;
+
+  const addNumber = test.length;
+
+  return <div>{addNumber > 0 ? <Adds /> : <NoAddsYet />}</div>;
 }
 
 export default AddsPage;

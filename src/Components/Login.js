@@ -29,7 +29,7 @@ function Login({ handleShowMessage }) {
           handleShowMessage("Success!", "showSuccess");
           setTimeout(() => {
             handleShowMessage("", "doNotShow");
-            navigate("adds");
+            navigate("/adds");
           }, 2000);
         } else {
           throw new Error("Invalid credentials.");
