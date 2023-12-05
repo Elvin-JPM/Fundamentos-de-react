@@ -1,28 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { test } from "../playAround";
 import NoAddsYet from "../Components/NoAddsYet";
-import Adds from "../Components/Adds";
+import Ads from "../Components/Ads";
 
 import storage from "../api/storage";
 import { getData } from "../api/api";
 import { useNavigate } from "react-router-dom";
 
-function AddsPage() {
-  const addNumber = test.length;
+function AdsPage() {
+  const [ads, setAds] = useState([]);
   const navigate = useNavigate();
   const authToken = storage.get("authToken");
-  if (authToken) {
-    const response = async () =>
-      await getData("/v1/adverts", {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
 
-    console.log(response);
-  } else {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (authToken) {
+      const fetchData = async () => {
+        try {
+          const response = await getData("/v1/adverts", {
+            headers: { Authorization: `Bearer ${authToken}` },
+          });
+          setAds(response);
+          console.log(response);
+        } catch (error) {}
+      };
 
-  return <div>{addNumber > 0 ? <Adds /> : <NoAddsYet />}</div>;
+      fetchData();
+    } else {
+      navigate("/login");
+    }
+  }, [authToken]);
+
+  return <div>{ads.length > 0 ? <Ads adsList={ads} /> : <NoAddsYet />}</div>;
 }
 
-export default AddsPage;
+export default AdsPage;

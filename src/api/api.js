@@ -2,11 +2,13 @@ import axios from "axios";
 
 const BASE_URL = "http://127.0.0.1:3001/api";
 
-export async function postData(endpoint, requestBody) {
+export async function postData(endpoint, requestBody, headers) {
   const body = requestBody;
 
   try {
-    const response = await axios.post(BASE_URL + endpoint, body);
+    const response = await axios.post(BASE_URL + endpoint, body, {
+      headers: headers,
+    });
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -14,7 +16,7 @@ export async function postData(endpoint, requestBody) {
 }
 
 export async function getData(endpoint, requestHeaders) {
-  const headers = requestHeaders.headers;
+  const headers = requestHeaders;
 
   try {
     const response = await axios.get(BASE_URL + endpoint, headers);

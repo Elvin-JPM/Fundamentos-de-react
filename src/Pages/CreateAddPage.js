@@ -1,11 +1,18 @@
 import { useState } from "react";
+import storage from "../api/storage";
+import { postData } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 function CreateAddPage() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
-  const [radioOption, setRadioOption] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [radioOption, setRadioOption] = useState(""); // Selling or buying
+  const [selectedOptions, setSelectedOptions] = useState([]); // tags
   const [selectedImage, setSelectedImage] = useState(null);
   const [price, setPrice] = useState("");
+
+  const authToken = storage.get("authToken");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -37,12 +44,43 @@ function CreateAddPage() {
     setPrice(event.target.value);
   };
 
+  const handleCreateAdd = (event) => {
+    event.preventDefault();
+    if (authToken) {
+      try {
+        const postAdd = async () => {
+          const response = await postData(
+            "/v1/adverts",
+            {
+              name: name,
+              sale: true,
+              price: price,
+              tags: selectedOptions,
+              photo: selectedImage,
+            },
+            {
+              Authorization: `Bearer ${authToken}`,
+              "Content-Type": "multipart/form-data",
+            }
+          );
+          console.log("Response from create Add: ", response);
+        };
+
+        postAdd();
+        navigate("/adds");
+      } catch (error) {}
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div>
       <form>
         <label>Name:</label>
         <input
           type="text"
+          id="name"
           placeholder="name"
           value={name}
           onChange={handleNameChange}
@@ -54,6 +92,7 @@ function CreateAddPage() {
         <label>
           <input
             type="radio"
+            id="for_sale"
             value="for_sale"
             checked={radioOption === "for_sale"}
             onChange={handleRadioChange}
@@ -63,6 +102,7 @@ function CreateAddPage() {
         <label>
           <input
             type="radio"
+            id="looking_to_buy"
             value="looking_to_buy"
             checked={radioOption === "looking_to_buy"}
             onChange={handleRadioChange}
@@ -135,7 +175,7 @@ function CreateAddPage() {
           onChange={handleImageChange}
         />
         <p>Selected Options: {selectedOptions.join(", ")}</p>
-        <input type="submit" value="Create"></input>
+        <input type="submit" value="Create" onClick={handleCreateAdd}></input>
       </form>
     </div>
   );
