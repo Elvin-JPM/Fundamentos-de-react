@@ -4,6 +4,7 @@ import { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { postData } from "../api/api";
+import storage from "../api/storage";
 
 function Login({ handleShowMessage }) {
   const [email, setEmail] = useState("");
@@ -29,6 +30,7 @@ function Login({ handleShowMessage }) {
           handleShowMessage("Success!", "showSuccess");
           setTimeout(() => {
             handleShowMessage("", "doNotShow");
+            storage.set("authToken", response.data.accessToken);
             navigate("/adds");
           }, 2000);
         } else {

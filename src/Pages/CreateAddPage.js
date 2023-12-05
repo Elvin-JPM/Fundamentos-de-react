@@ -4,6 +4,13 @@ function CreateAddPage() {
   const [name, setName] = useState("");
   const [radioOption, setRadioOption] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [price, setPrice] = useState("");
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+  };
 
   // Handler function for name input change
   const handleNameChange = (event) => {
@@ -24,6 +31,10 @@ function CreateAddPage() {
       // If the option is not selected, add it to the array
       setSelectedOptions([...selectedOptions, value]);
     }
+  };
+
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
   };
 
   return (
@@ -105,7 +116,26 @@ function CreateAddPage() {
           <label htmlFor="Electronics">Electronics</label>
         </div>
 
+        <label>Precio: </label>
+        <input
+          type="number"
+          value={price}
+          required
+          onChange={handlePriceChange}
+        ></input>
+
+        <br></br>
+
+        <label htmlFor="imageInput">Select an Image:</label>
+        <input
+          type="file"
+          id="imageInput"
+          required
+          accept="image/*" // Specify that only image files are allowed
+          onChange={handleImageChange}
+        />
         <p>Selected Options: {selectedOptions.join(", ")}</p>
+        <input type="submit" value="Create"></input>
       </form>
     </div>
   );

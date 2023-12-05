@@ -3,7 +3,7 @@ import BtnCreateAdd from "./BtnCreateAdd.js";
 function Adds() {
   return (
     <div>
-      <p>These are all the adds</p>
+      <p>Ads go here</p>
       <BtnCreateAdd />
     </div>
   );
