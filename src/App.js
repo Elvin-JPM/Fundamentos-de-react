@@ -4,7 +4,7 @@ import SignUpLayout from "./Pages/SignUpLayout.js";
 import AddsPage from "./Pages/AddsPage.js";
 import LoginLayout from "./Pages/LoginLayout.js";
 import CreateAddPage from "./Pages/CreateAddPage.js";
-
+import Ad from "./Components/Ad.js";
 function App() {
   return (
     <div className="App">
@@ -15,6 +15,7 @@ function App() {
           <Route path="login" element={<LoginLayout />}></Route>
           <Route path="adds" element={<AddsPage />} />
           <Route path="new" element={<CreateAddPage />} />
+          <Route path=":id" element={<Ad />} />
         </Routes>
       </BrowserRouter>
     </div>
