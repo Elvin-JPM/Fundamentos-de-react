@@ -9,6 +9,7 @@ import storage from "../api/storage";
 function Login({ handleShowMessage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(null);
   const navigate = useNavigate();
 
   const requestBody = {
@@ -21,6 +22,11 @@ function Login({ handleShowMessage }) {
     if (inputId === "password") setPassword(newValue);
   };
 
+  const handleRememberUser = (event) => {
+    console.log(event.target.checked);
+    setRemember(event.target.checked);
+  };
+
   const handleClick = async () => {
     if (email && password) {
       try {
@@ -30,7 +36,11 @@ function Login({ handleShowMessage }) {
           handleShowMessage("Success!", "showSuccess");
           setTimeout(() => {
             handleShowMessage("", "doNotShow");
-            storage.set("authToken", response.data.accessToken);
+            if (remember) {
+              storage.set("authToken", response.data.accessToken);
+            } else {
+              sessionStorage.setItem("authToken", response.data.accessToken);
+            }
             navigate("/adds");
           }, 2000);
         } else {
@@ -69,6 +79,15 @@ function Login({ handleShowMessage }) {
         ></Input>
 
         <input type="button" value={"Login"} onClick={handleClick}></input>
+        <div>
+          <input
+            type="checkbox"
+            id="remember"
+            value="remember"
+            onChange={handleRememberUser}
+          ></input>
+          <label htmlFor="remember">Remember username and password</label>
+        </div>
 
         <label>Don't have an account?</label>
         <Link to="/signup">Sign up here</Link>

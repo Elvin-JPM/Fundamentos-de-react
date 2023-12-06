@@ -13,9 +13,9 @@ function App() {
           <Route path="/" element={<LoginLayout />} />
           <Route path="signup" element={<SignUpLayout />}></Route>
           <Route path="login" element={<LoginLayout />}></Route>
-          <Route path="adds" element={<AddsPage />} />
+          <Route path="adds" element={<AddsPage />}></Route>
           <Route path="new" element={<CreateAddPage />} />
-          <Route path=":id" element={<Ad />} />
+          <Route path="adds/:id" element={<Ad />} />
         </Routes>
       </BrowserRouter>
     </div>
