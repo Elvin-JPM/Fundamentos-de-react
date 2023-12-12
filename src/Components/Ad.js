@@ -8,13 +8,16 @@ function Ad() {
   const [ad, setAd] = useState("");
   const { id } = useParams();
   const authToken = storage.get("authToken");
+  const sessionToken = sessionStorage.getItem("authToken");
 
   useEffect(() => {
-    if (authToken) {
+    if (sessionToken || authToken) {
       try {
         const fetchData = async () => {
           const response = await getData(`/v1/adverts/${id}`, {
-            headers: { Authorization: `Bearer ${authToken}` },
+            headers: {
+              Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
+            },
           });
           console.log(response);
           setAd(response);
