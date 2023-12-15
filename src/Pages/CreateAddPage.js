@@ -54,7 +54,7 @@ function CreateAddPage() {
             "/v1/adverts",
             {
               name: name,
-              sale: true,
+              sale: radioOption === "For sale" ? true : false,
               price: price,
               tags: selectedOptions,
               photo: selectedImage,

@@ -6,7 +6,7 @@ function Adds({ adsList, name, minPrice, maxPrice, adType, tags }) {
   return (
     <div>
       {adsList.map((ad) =>
-        (name === "" || ad.name.includes(name)) &&
+        (name === "" || ad.name.includes(name.toLowerCase())) &&
         (minPrice === "" || Number(minPrice) <= Number(ad.price)) &&
         (maxPrice === "" || Number(maxPrice) >= Number(ad.price)) &&
         (adType === "" ||
