@@ -6,7 +6,13 @@ function Adds({ adsList, name, minPrice, maxPrice, adType, tags }) {
   return (
     <div>
       {adsList.map((ad) =>
-        ad.name.includes(name) ? (
+        (name === "" || ad.name.includes(name)) &&
+        (minPrice === "" || Number(minPrice) <= Number(ad.price)) &&
+        (maxPrice === "" || Number(maxPrice) >= Number(ad.price)) &&
+        (adType === "" ||
+          (ad.sale ? "For sale" : "Looking to buy") === adType) &&
+        (tags.length === 0 ||
+          tags.some((filterTag) => ad.tags.includes(filterTag))) ? (
           <Link className={styles.link} to={`/adds/${ad.id}`} key={ad.id}>
             <div className={styles.card}>
               <p>Name: {ad.name}</p>
@@ -20,7 +26,6 @@ function Adds({ adsList, name, minPrice, maxPrice, adType, tags }) {
           ""
         )
       )}
-
       <BtnCreateAdd />
     </div>
   );
