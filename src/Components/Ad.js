@@ -28,7 +28,7 @@ function Ad() {
     } else {
       navigate("/login");
     }
-  }, [authToken, id, navigate]);
+  }, [authToken, id, navigate, sessionToken]);
 
   return (
     <div>

@@ -66,7 +66,7 @@ function AdsPage() {
     } else {
       navigate("/login");
     }
-  }, [authToken]);
+  }, [authToken, navigate, sessionToken]);
 
   return (
     <div>

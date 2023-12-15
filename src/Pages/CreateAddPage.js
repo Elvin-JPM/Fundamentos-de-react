@@ -13,6 +13,7 @@ function CreateAddPage() {
   const [price, setPrice] = useState("");
 
   const authToken = storage.get("authToken");
+  const sessionToken = sessionStorage.getItem("authToken");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -46,7 +47,7 @@ function CreateAddPage() {
 
   const handleCreateAdd = (event) => {
     event.preventDefault();
-    if (authToken) {
+    if (authToken || sessionToken) {
       try {
         const postAdd = async () => {
           const response = await postData(
@@ -59,7 +60,7 @@ function CreateAddPage() {
               photo: selectedImage,
             },
             {
-              Authorization: `Bearer ${authToken}`,
+              Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
               "Content-Type": "multipart/form-data",
             }
           );
