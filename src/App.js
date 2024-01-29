@@ -1,10 +1,18 @@
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 import SignUpLayout from "./Pages/SignUpLayout.js";
 import AddsPage from "./Pages/AddsPage.js";
 import LoginLayout from "./Pages/LoginLayout.js";
 import CreateAddPage from "./Pages/CreateAddPage.js";
 import Ad from "./Components/Ad.js";
+
 function App() {
   return (
     <div className="App">
@@ -14,8 +22,9 @@ function App() {
           <Route path="signup" element={<SignUpLayout />}></Route>
           <Route path="login" element={<LoginLayout />}></Route>
           <Route path="adds" element={<AddsPage />}></Route>
-          <Route path="new" element={<CreateAddPage />} />
+          <Route path="adds/new" element={<CreateAddPage />} />
           <Route path="adds/:id" element={<Ad />} />
+          <Route path="*" element={ <div>404 Not found</div>} /> 
         </Routes>
       </BrowserRouter>
     </div>
