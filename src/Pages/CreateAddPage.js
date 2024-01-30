@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import storage from "../api/storage";
 import { postData } from "../api/api";
 import { useNavigate } from "react-router-dom";
@@ -11,9 +11,19 @@ function CreateAddPage() {
   const [selectedOptions, setSelectedOptions] = useState([]); // tags
   const [selectedImage, setSelectedImage] = useState(null);
   const [price, setPrice] = useState("");
+  const [btnEnabled, setBtnEnabled] = useState(false);
 
   const authToken = storage.get("authToken");
   const sessionToken = sessionStorage.getItem("authToken");
+  const enabled =
+    name.length !== "" &&
+    selectedOptions.length > 0 &&
+    price !== "" &&
+    radioOption !== "";
+
+  useEffect(() => {
+    setBtnEnabled(enabled);
+  }, [enabled]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -65,10 +75,10 @@ function CreateAddPage() {
             }
           );
           console.log("Response from create Add: ", response);
+          const data = await response.data;
+          navigate(`/adds/${data.id}`);
         };
-
         postAdd();
-        navigate("/adds");
       } catch (error) {}
     } else {
       navigate("/login");
@@ -176,7 +186,12 @@ function CreateAddPage() {
           onChange={handleImageChange}
         />
         <p>Selected Options: {selectedOptions.join(", ")}</p>
-        <input type="submit" value="Create" onClick={handleCreateAdd}></input>
+        <input
+          type="submit"
+          value="Create"
+          onClick={handleCreateAdd}
+          disabled={!btnEnabled}
+        ></input>
       </form>
     </div>
   );
