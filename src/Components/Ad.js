@@ -30,6 +30,10 @@ function Ad() {
     }
   }, [authToken, id, navigate, sessionToken]);
 
+  if (typeof ad === "undefined") {
+    navigate("/notFound");
+    return;
+  }
   return (
     <div>
       <p>{ad.name}</p>

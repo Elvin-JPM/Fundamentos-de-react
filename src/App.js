@@ -12,6 +12,7 @@ import AddsPage from "./Pages/AddsPage.js";
 import LoginLayout from "./Pages/LoginLayout.js";
 import CreateAddPage from "./Pages/CreateAddPage.js";
 import Ad from "./Components/Ad.js";
+import NotFound from "./Pages/NotFound.js";
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
           <Route path="adds" element={<AddsPage />}></Route>
           <Route path="adds/new" element={<CreateAddPage />} />
           <Route path="adds/:id" element={<Ad />} />
-          <Route path="*" element={ <div>404 Not found</div>} /> 
+          <Route path="/notFound" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>
