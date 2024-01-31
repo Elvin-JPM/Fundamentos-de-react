@@ -4,10 +4,9 @@ import Ads from "../Components/Ads";
 
 import storage from "../api/storage";
 import { getData } from "../api/api";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Filters from "../Components/Filters.js";
 import Header from "../Components/Header.js";
-import Button from "../Components/Button.js";
 import Confirm from "../Components/Confirm.js";
 
 function AdsPage() {
@@ -75,30 +74,9 @@ function AdsPage() {
     }
   }, [authToken, navigate, sessionToken]);
 
-  const handleLogout = () => {
-    storage.remove("authToken");
-    sessionStorage.removeItem("authToken");
-    navigate("/login");
-  };
-
   return (
     <div>
-      <Header>
-        <NavLink to="/Adds/new">Create Add</NavLink>
-        <NavLink to="/Adds">Adds</NavLink>
-        {authToken || sessionToken ? (
-          <Button text="Logout" handleClick={handleShow} />
-        ) : (
-          <Button text="Log in" />
-        )}
-      </Header>
-      <Confirm
-        show={show}
-        handleShow={handleShow}
-        notice={`Close session?`}
-        btnText="Yes"
-        handleAction={handleLogout}
-      />
+      <Header />
       <Filters
         name={name}
         minPrice={minPrice}
