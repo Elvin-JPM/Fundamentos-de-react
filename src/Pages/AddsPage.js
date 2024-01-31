@@ -7,11 +7,9 @@ import { getData } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import Filters from "../Components/Filters.js";
 import Header from "../Components/Header.js";
-import Confirm from "../Components/Confirm.js";
 
 function AdsPage() {
   const [ads, setAds] = useState([]);
-  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const authToken = storage.get("authToken");
   const sessionToken = sessionStorage.getItem("authToken");
@@ -22,9 +20,6 @@ function AdsPage() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
-  const handleShow = () => {
-    setShow(!show);
-  };
   // Handler function for name input change
   const handleNameChange = (event) => {
     setName(event.target.value);
